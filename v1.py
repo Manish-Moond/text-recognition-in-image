@@ -13,7 +13,7 @@ pytesseract.tesseract_cmd = r'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 x1 = y1 = x2 = y2 = -1
 pressed_key = ''
 
-
+# current position of pointer
 def position():
     global pressed_key, x1, y1, x2, y2
     while True:
@@ -42,6 +42,8 @@ keys.append("backspace")
 keys.append("shift")
 keys.append("esc")
 
+# listen to hit key on keyboard
+
 
 def listen(key):
     global pressed_key
@@ -49,6 +51,8 @@ def listen(key):
         keyboard.wait(key)
         print("[+] Pressed", key)
         pressed_key = key
+
+# Take screen shot in between corr x1, y1, and x2, y2
 
 
 def take_screenshot():
@@ -76,11 +80,16 @@ key_threads = [threading.Thread(
 for thread in key_threads:
     thread.start()
 
+
+#This thread for current position of pointer
 position_thread = threading.Thread(target=position)
 position_thread.start()
 
+
+#This thread for take screenshot
 image_thread = threading.Thread(target=take_screenshot)
 image_thread.start()
 
+#This thread for convert image to text
 txt_thread = threading.Thread(target=convert_to_text)
 txt_thread.start()
